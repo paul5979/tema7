@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+
+    <section class="liste"></section>
+
+    <template>
+        <article class="dyr">
+            <h3></h3>
+            <img src="" alt="">
+            <p class="type">Type:</p>
+            <p class="levested">Levested:</p>
+        </article>
+    </template>
+
+
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", visDyr);
+
+        let dyr = [{
+                navn: "Frø",
+                type: "Amfibie",
+                levested: "Vandhul",
+                billede: "http://mabe-kea.dk/E19/pics/frog.png"
+            },
+            {
+                navn: "Gris",
+                type: "Pattedyr",
+                levested: "Grisefarm",
+                billede: "http://mabe-kea.dk/E19/pics/pig.png"
+            },
+            {
+                navn: "Ræv",
+                type: "Pattedyr",
+                levested: "Skoven",
+                billede: "http://mabe-kea.dk/E19/pics/fox.png"
+            },
+            {
+                navn: "Sild",
+                type: "Fisk",
+                levested: "Havet",
+                billede: "http://mabe-kea.dk/E19/pics/sild.jpg"
+            },
+            {
+                navn: "Krokodille",
+                type: "Krybdyr",
+                levested: "Floden",
+                billede: "http://mabe-kea.dk/E19/pics/kroko.jpg"
+            }
+        ];
+
+
+        function visDyr() {
+            const container = document.querySelector(".liste");
+            const dyrTemplate = document.querySelector("template");
+            dyr.forEach(art => {
+
+                let klon = dyrTemplate.cloneNode(true).content;
+                klon.querySelector("h3").textContent = art.navn;
+                klon.querySelector(".type").textContent = art.type;
+                klon.querySelector(".levested").textContent = art.levested;
+                klon.querySelector("img").src = art.billede;
+
+                container.appendChild(klon);
+
+            })
+
+        }
+    </script>
+</body></html>
