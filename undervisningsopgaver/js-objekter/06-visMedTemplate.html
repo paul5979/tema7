@@ -22,11 +22,12 @@
 
     main {
         display: grid;
-        grid-template-columns: repeat(auto-fill, mimax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         max-width: 1000px;
         margin: 0 auto;
         grid-gap: 10px;
     }
+
 </style>
 
 
@@ -100,5 +101,8 @@
             })
 
         }
+
     </script>
-</body></html>
+</body>
+
+</html>
