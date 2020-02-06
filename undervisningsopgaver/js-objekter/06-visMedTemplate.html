@@ -8,9 +8,32 @@
     <link rel="stylesheet" href="">
 </head>
 
+<style>
+    article {
+        border: 1px solid #333;
+        padding: 10px;
+    }
+
+
+    article:nth-child(even) {
+        background: pink;
+    }
+
+
+    main {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, mimax(300px, 1fr));
+        max-width: 1000px;
+        margin: 0 auto;
+        grid-gap: 10px;
+    }
+</style>
+
+
+
 <body>
 
-    <section class="liste"></section>
+    <main></main>
 
     <template>
         <article class="dyr">
@@ -62,7 +85,7 @@
 
 
         function visDyr() {
-            const container = document.querySelector(".liste");
+            const container = document.querySelector("main");
             const dyrTemplate = document.querySelector("template");
             dyr.forEach(art => {
 
