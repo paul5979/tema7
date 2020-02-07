@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+<style>
+    article {
+        border: 1px solid black;
+
+    }
+
+    main {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax (300px, 1fr));
+        max-width: 1000px;
+        margin: 0 auto;
+        grid-gap: 10px;
+
+    }
+</style>
+
+<body>
+
+
+
+    <template>
+        <article class="dyr">
+            <h3></h3>
+            <p class="type"></p>
+            <p class="levested"></p>
+            <img src="" alt="">
+        </article>
+    </template>
+
+    <main></main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", start);
+
+        let alledyr = [];
+
+        function start() {
+            hentData();
+
+        }
+
+        async function hentData() {
+            const response = await fetch("alledyr.json");
+            console.log(response);
+            alledyr = await response.json();
+            console.log(alledyr);
+            visDyr();
+        }
+
+        //data fra array ligger i json fil - alledyr.json
+
+        function visDyr() {
+
+            const container = document.querySelector("main");
+            const dyrTemplate = document.querySelector("template");
+            alledyr.forEach(dyr => {
+                let klon = dyrTemplate.cloneNode(true).content;
+                klon.querySelector("h3").textContent = dyr.fornavn;
+                klon.querySelector(".type").textContent = dyr.type;
+                klon.querySelector(".levested").textContent = dyr.levested;
+                klon.querySelector("img").src = dyr.billede;
+                container.appendChild(klon);
+
+
+            })
+
+
+        }
+    </script>
+</body></html>
