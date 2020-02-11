@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+
+<nav>
+    <h1>Alle</h1>
+    <button class="filter valgt" data-sex="alle">Alle</button>
+    <button class="filter" data-sex="m">Mænd</button>
+    <button class="filter" data-sex="k">Kvinder</button>
+    <button class="filter" data-sex="andet">Andet</button>
+</nav>
+
+
+<style>
+    nav {
+        flex-direction: row;
+        text-align: center;
+        padding: 20px;
+    }
+
+
+    nav .valgt {
+        background-color: lightgoldenrodyellow;
+    }
+
+
+
+    article {
+        border: 1px solid black;
+        //*background-color: lightcyan;*//
+    }
+
+    img {
+        width: 100%;
+    }
+
+    main {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        max-width: 1000px;
+        margin: 0 auto;
+        grid-gap: 10px;
+    }
+
+
+    button {
+        //* border: ;*//
+        width: 5rem;
+        height: 2rem;
+
+    }
+
+    #detalje {
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 10;
+    }
+
+    #detalje button {
+        font-size: 2em;
+        margin: .5em;
+
+    }
+
+
+    .skjul {
+        display: none;
+    }
+
+
+    #person {
+        margin: 3em;
+        padding: 2em;
+        background-color: white;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+
+    <template>
+        <article class="person">
+            <h2></h2>
+            <p class="id"></p>
+            <p class="efternavn"></p>
+            <p class="sex"></p>
+            <p class="alder"></p>
+            <p class="religion"></p>
+            <p class="hobby"></p>
+            <p class="kaeledyr"></p>
+            <p class="job"></p>
+            <p class="by"></p>
+            <p class="rpc"></p>
+            <img src="" alt="">
+        </article>
+    </template>
+
+    <section id="detalje" class="skjul">
+        <button>X</button>
+        <article id="person">
+            <h1>NAVN</h1>
+            <img src="">
+            <p>RELIGION</p>
+        </article>
+    </section>
+
+    <main></main>
+
+    <script>
+        const endpoint = "https://spreadsheets.google.com/feeds/list/1XWWbfWszD7f4jHqp51V_oT3pkHuR-ceEUw4YtrvK7F0/od6/public/values?alt=json";
+        let personer = [];
+        let filter = "alle";
+        let tal = 55;
+        const container = document.querySelector("main");
+        const personerTemplate = document.querySelector("template");
+        const detalje = document.querySelector("#detalje");
+
+
+        document.addEventListener("DOMContentLoaded", start);
+
+        function start() {
+            hentData();
+            addEventListnerToButtons();
+        }
+
+        async function hentData() {
+            const response = await fetch(endpoint);
+            console.log(response);
+            personer = await response.json();
+            console.log(personer);
+            visPersoner();
+
+        }
+
+
+
+
+
+        function visPersoner() {
+            container.innerHTML = "";
+            personer.feed.entry.forEach((person) => {
+                if ((filter == "alle" && tal >= 55) || (filter == person.gsx$sex.$t && tal <= parseInt(person.gsx$alder.$t))) {
+                    const klon = personerTemplate.cloneNode(true).content;
+                    klon.querySelector(".id").textContent = person.gsx$id.$t;
+                    klon.querySelector("h2").textContent = person.gsx$navn.$t;
+                    klon.querySelector(".efternavn").textContent = person.gsx$efternavn.$t;
+                    klon.querySelector(".sex").textContent = person.gsx$sex.$t;
+                    klon.querySelector(".alder").textContent = person.gsx$alder.$t;
+                    klon.querySelector(".religion").textContent = person.gsx$religion.$t;
+                    klon.querySelector(".hobby").textContent = person.gsx$hobby.$t;
+                    klon.querySelector("img").src = person.gsx$billede.$t;
+                    klon.querySelector(".kaeledyr").textContent = person.gsx$kaeledyr.$t;
+                    klon.querySelector(".job").textContent = person.gsx$job.$t;
+                    klon.querySelector(".by").textContent = person.gsx$by.$t;
+                    klon.querySelector(".rpc").textContent = person.gsx$rpc.$t;
+
+
+                    console.log(parseInt(person.gsx$alder.$t));
+
+
+                    klon.querySelector(".person").addEventListener("click", function() {
+                        visDetalje(person)
+                    });
+
+                    container.appendChild(klon);
+
+                }
+            })
+
+        }
+
+
+        function visDetalje(person) {
+            detalje.classList.remove("skjul");
+            detalje.querySelector("button").addEventListener("click", () => detalje.classList.add("skjul"));
+            console.log(person.gsx$navn.$t);
+        }
+
+        function addEventListnerToButtons() {
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.addEventListener("click", filtering);
+            })
+
+        }
+
+
+        function filtering() {
+            //console.log("FILTER");
+            filter = this.dataset.sex;
+            document.querySelector("h1").textContent = this.textContent;
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.classList.remove("valgt");
+            })
+            this.classList.add("valgt");
+            visPersoner();
+        }
+    </script>
+</body></html>
