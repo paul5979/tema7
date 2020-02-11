@@ -56,35 +56,6 @@
         height: 2rem;
 
     }
-
-    #detalje {
-        position: fixed;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 10;
-        overflow: scroll;
-    }
-
-    #detalje button {
-        font-size: 2em;
-        margin: .5em;
-
-    }
-
-
-    .skjul {
-        display: none;
-    }
-
-
-    #person {
-        margin: 3em;
-        padding: 2em;
-        background-color: white;
-        cursor: pointer;
-    }
 </style>
 
 <body>
@@ -106,15 +77,7 @@
         </article>
     </template>
 
-    <section id="detalje" class="skjul">
-        <button>X</button>
-        <article id="person">
-            <h1>NAVN</h1>
-            <img src="">
-            <p>RELIGION</p>
-            <p>HOBBY</p>
-        </article>
-    </section>
+    <section></section>
 
     <main></main>
 
@@ -125,7 +88,6 @@
         let tal = 55;
         const container = document.querySelector("main");
         const personerTemplate = document.querySelector("template");
-        const detalje = document.querySelector("#detalje");
 
 
         document.addEventListener("DOMContentLoaded", start);
@@ -166,12 +128,9 @@
                     klon.querySelector(".by").textContent = person.gsx$by.$t;
                     klon.querySelector(".rpc").textContent = person.gsx$rpc.$t;
 
-
-                    console.log(parseInt(person.gsx$alder.$t));
-
-
                     klon.querySelector(".person").addEventListener("click", function() {
-                        visDetalje(person)
+                        //visDetalje(person)
+                        location.href = "detalje.html?id=" + person.gsx$id.$t;
                     });
 
                     container.appendChild(klon);
@@ -182,19 +141,7 @@
         }
 
 
-        function visDetalje(person) {
-            detalje.classList.remove("skjul");
-            detalje.querySelector("button").addEventListener("click", () => detalje.classList.add("skjul"));
-            console.log(person.gsx$navn.$t);
-            detalje.querySelector("h1").textContent = person.gsx$navn.$t;
-            detalje.querySelector("p").textContent = person.gsx$religion.$t;
-            detalje.querySelector("p + p").textContent = person.gsx$hobby.$t;
-            detalje.querySelector("img").src = person.gsx$billede.$t;
-            detalje.querySelector("img").alt = "Portræt af" + person.gsx$nav.$t + person.gsx$efternavn.$t;
 
-
-
-        }
 
         function addEventListnerToButtons() {
             document.querySelectorAll(".filter").forEach(elm => {
