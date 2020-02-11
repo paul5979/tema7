@@ -64,6 +64,7 @@
         height: 100vh;
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 10;
+        overflow: scroll;
     }
 
     #detalje button {
@@ -111,6 +112,7 @@
             <h1>NAVN</h1>
             <img src="">
             <p>RELIGION</p>
+            <p>HOBBY</p>
         </article>
     </section>
 
@@ -184,6 +186,14 @@
             detalje.classList.remove("skjul");
             detalje.querySelector("button").addEventListener("click", () => detalje.classList.add("skjul"));
             console.log(person.gsx$navn.$t);
+            detalje.querySelector("h1").textContent = person.gsx$navn.$t;
+            detalje.querySelector("p").textContent = person.gsx$religion.$t;
+            detalje.querySelector("p + p").textContent = person.gsx$hobby.$t;
+            detalje.querySelector("img").src = person.gsx$billede.$t;
+            detalje.querySelector("img").alt = "Portræt af" + person.gsx$nav.$t + person.gsx$efternavn.$t;
+
+
+
         }
 
         function addEventListnerToButtons() {
